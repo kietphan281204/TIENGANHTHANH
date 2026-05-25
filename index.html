@@ -1,0 +1,1696 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz 200 Từ Vựng</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #c5d818;
+      color: white;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    /* ===== CHỌN NHÓM ===== */
+    #groupSelect {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 30px 0 10px;
+    }
+
+    .group-btn {
+      padding: 18px 30px;
+      font-size: 17px;
+      font-weight: bold;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      color: white;
+      min-width: 180px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .group-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .group-btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-a {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+    }
+
+    .btn-b {
+      background: linear-gradient(135deg, #ec4899, #be185d);
+    }
+
+    .btn-c {
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+    }
+
+    .btn-d {
+      background: linear-gradient(135deg, #10b981, #065f46);
+    }
+
+    .btn-e {
+      background: linear-gradient(135deg, #8b5cf6, #5b21b6);
+    }
+
+    .btn-f {
+      background: linear-gradient(135deg, #14b8a6, #0f766e);
+    }
+
+    .btn-g {
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+    }
+
+    .btn-h {
+      background: linear-gradient(135deg, #eab308, #a16207);
+    }
+
+    .btn-i {
+      background: linear-gradient(135deg, #0ea5e9, #0369a1);
+    }
+
+    .btn-j {
+      background: linear-gradient(135deg, #d946ef, #a21caf);
+    }
+
+    .group-label {
+      font-size: 22px;
+      display: block;
+    }
+
+    .group-sub {
+      font-size: 13px;
+      font-weight: normal;
+      opacity: 0.85;
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ===== QUIZ ===== */
+    #quizSection {
+      display: none;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin: 0 0 16px;
+      padding: 8px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #475569;
+      color: white;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #64748b;
+    }
+
+    .timer {
+      position: sticky;
+      top: 0;
+      background: #facc15;
+      color: #000;
+      padding: 10px;
+      text-align: center;
+      border-radius: 12px;
+      font-size: 20px;
+      margin-bottom: 16px;
+      z-index: 2;
+    }
+
+    .group-badge {
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 14px;
+      padding: 6px 14px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .badge-a {
+      background: #4f46e5;
+    }
+
+    .badge-b {
+      background: #be185d;
+    }
+
+    .badge-c {
+      background: #b45309;
+    }
+
+    .badge-d {
+      background: #065f46;
+    }
+
+    .badge-e {
+      background: #5b21b6;
+    }
+
+    .badge-f {
+      background: #0f766e;
+    }
+
+    .badge-g {
+      background: #be123c;
+    }
+
+    .badge-h {
+      background: #a16207;
+    }
+
+    .badge-i {
+      background: #0369a1;
+    }
+
+    .badge-j {
+      background: #a21caf;
+    }
+
+    .question {
+      background: #b86196;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .answers label {
+      display: block;
+      padding: 6px;
+      border-radius: 8px;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    .correct {
+      background: #14532d !important;
+      color: #bbf7d0 !important;
+    }
+
+    .wrong {
+      background: #7f1d1d !important;
+      color: #fecaca !important;
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 26px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #4f46e5;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ===== Ô NHẮN TIN ===== */
+    #messageBox {
+      background: #273449;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 10px;
+      border: 2px solid #4f46e5;
+    }
+
+    #messageBox p {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: #facc15;
+      font-weight: bold;
+    }
+
+    #userMessage {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 90px;
+      border-radius: 10px;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      resize: vertical;
+      background: #1e293b;
+      color: white;
+      outline: none;
+    }
+
+    #userMessage::placeholder {
+      color: #94a3b8;
+    }
+
+    #sendMsgBtn {
+      margin: 12px 0 0;
+      padding: 10px 24px;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    #sendMsgBtn:hover {
+      background: #16a34a;
+    }
+
+    #sendMsgBtn:disabled {
+      background: #4b7a57;
+      cursor: not-allowed;
+    }
+
+    #sendStatus {
+      margin-top: 8px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    /* ===== TUYẾT RƠI ===== */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 1em;
+      user-select: none;
+      z-index: 9999;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+
+    @keyframes clickEffect {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-80px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* ===== CUSTOM TRANSLATOR ===== */
+    .translator-container {
+      background: white;
+      border-radius: 12px;
+      color: #3c4043;
+      font-family: Arial, sans-serif;
+      margin: 20px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      overflow: hidden;
+      border: 1px solid #dadce0;
+    }
+
+    .translator-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid #dadce0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #5f6368;
+    }
+
+    .translator-lang-bar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #dadce0;
+      background: #fff;
+    }
+
+    .trans-select {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      color: #1a73e8;
+      font-weight: bold;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .trans-swap-btn {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: #5f6368;
+      cursor: pointer;
+      padding: 0 10px;
+    }
+
+    .trans-swap-btn:hover {
+      color: #1a73e8;
+    }
+
+    .translator-text-areas {
+      display: flex;
+      min-height: 120px;
+    }
+
+    .trans-input-wrapper,
+    .trans-output-wrapper {
+      flex: 1;
+      padding: 16px;
+    }
+
+    .trans-input-wrapper {
+      border-right: 1px solid #dadce0;
+    }
+
+    .trans-output-wrapper {
+      background: #f8f9fa;
+    }
+
+    #trans-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      resize: none;
+      outline: none;
+      font-size: 20px;
+      color: #202124;
+      background: transparent;
+    }
+
+    #trans-output {
+      font-size: 20px;
+      color: #202124;
+      word-wrap: break-word;
+    }
+
+    @media (max-width: 600px) {
+      .translator-text-areas {
+        flex-direction: column;
+      }
+
+      .trans-input-wrapper {
+        border-right: none;
+        border-bottom: 1px solid #dadce0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+
+    <!-- Custom Translator Widget -->
+    <div class="translator-container">
+      <div class="translator-header">
+        <span style="font-weight:bold; font-size: 16px;">🌐 Dịch</span>
+      </div>
+      <div class="translator-lang-bar">
+        <select id="trans-source-lang" class="trans-select" onchange="doTranslate()">
+          <option value="vi">Tiếng Việt</option>
+          <option value="en">Tiếng Anh</option>
+          <option value="zh-CN">Tiếng Trung (Giản thể)</option>
+          <option value="zh-TW">Tiếng Trung (Phồn thể)</option>
+        </select>
+        <button class="trans-swap-btn" onclick="swapTransLangs()">⇆</button>
+        <select id="trans-target-lang" class="trans-select" onchange="doTranslate()">
+          <option value="en">Tiếng Anh</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="zh-CN">Tiếng Trung (Giản thể)</option>
+          <option value="zh-TW">Tiếng Trung (Phồn thể)</option>
+        </select>
+      </div>
+      <div class="translator-text-areas">
+        <div class="trans-input-wrapper">
+          <textarea id="trans-input" placeholder="Nhập văn bản..." oninput="debounceTranslate()"></textarea>
+        </div>
+        <div class="trans-output-wrapper">
+          <div id="trans-output" style="color: #5f6368;">Bản dịch sẽ hiện ở đây...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CHỌN NHÓM ===== -->
+    <div id="groupSelect">
+      <button class="group-btn btn-a" onclick="startGroup(0)">
+        <span class="group-label">📘 Nhóm A</span>
+        <span class="group-sub">Đàm phán &amp; Hội họp<br>50 từ đầu tiên</span>
+      </button>
+      <button class="group-btn btn-b" onclick="startGroup(1)">
+        <span class="group-label">📙 Nhóm B</span>
+        <span class="group-sub">Tài chính &amp; Ngân sách<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-c" onclick="startGroup(2)">
+        <span class="group-label">📒 Nhóm C</span>
+        <span class="group-sub">Hợp đồng &amp; Kinh doanh QT<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-d" onclick="startGroup(3)">
+        <span class="group-label">📗 Nhóm D</span>
+        <span class="group-sub">Giao tiếp Doanh nghiệp<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-e" onclick="startGroup(4)">
+        <span class="group-label">📕 Nhóm E</span>
+        <span class="group-sub">Marketing &amp; Nhân sự<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-f" onclick="startGroup(5)">
+        <span class="group-label">📔 Nhóm F</span>
+        <span class="group-sub">QL Dự án &amp; Vận hành<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-g" onclick="startGroup(6)">
+        <span class="group-label">📓 Nhóm G</span>
+        <span class="group-sub">Công nghệ &amp; DVKH<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-h" onclick="startGroup(7)">
+        <span class="group-label">📒 Nhóm H</span>
+        <span class="group-sub">Chiến lược &amp; Bán lẻ<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-i" onclick="startGroup(8)">
+        <span class="group-label">📘 Nhóm I</span>
+        <span class="group-sub">Khởi nghiệp &amp; Ngân hàng<br>50 từ tiếp theo</span>
+      </button>
+      <button class="group-btn btn-j" onclick="startGroup(9)">
+        <span class="group-label">📙 Nhóm J</span>
+        <span class="group-sub">Sản xuất &amp; TMĐT<br>50 từ cuối</span>
+      </button>
+    </div>
+
+    <!-- Nút thêm, xóa từ vựng và chọn nhạc -->
+    <div id="addWordContainer" style="text-align: center; margin-top: 20px; display: block;">
+      <button class="submit-btn"
+        style="background: #eab308; display: inline-block; box-shadow: 0 4px 14px rgba(0,0,0,0.35); padding: 14px 24px; margin-bottom: 30px; margin-right: 10px;"
+        onclick="openAddWordModal()">➕ Thêm từ mới</button>
+      <button class="submit-btn"
+        style="background: #ef4444; display: inline-block; box-shadow: 0 4px 14px rgba(0,0,0,0.35); padding: 14px 24px; margin-bottom: 30px; margin-right: 10px;"
+        onclick="openDeleteWordModal()">🗑️ Xóa từ</button>
+      <button class="submit-btn"
+        style="background: #3b82f6; display: inline-block; box-shadow: 0 4px 14px rgba(0,0,0,0.35); padding: 14px 24px; margin-bottom: 30px; margin-right: 0;"
+        onclick="openMusicModal()">🎵 Chọn nhạc</button>
+    </div>
+
+    <!-- Modal thêm từ vựng -->
+    <div id="addWordModal"
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+      <div
+        style="background:#1e293b; padding:24px; border-radius:16px; width:90%; max-width:400px; color:white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <h2 style="margin-top:0; text-align:center;">Thêm từ vựng mới</h2>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; margin-bottom:6px; font-weight:bold;">Từ tiếng Anh</label>
+          <input type="text" id="newWordEn"
+            style="width:100%; padding:10px; border-radius:8px; border:none; box-sizing:border-box; background:#334155; color:white;"
+            placeholder="Ví dụ: Hello">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; margin-bottom:6px; font-weight:bold;">Nghĩa tiếng Việt</label>
+          <input type="text" id="newWordVi"
+            style="width:100%; padding:10px; border-radius:8px; border:none; box-sizing:border-box; background:#334155; color:white;"
+            placeholder="Ví dụ: Xin chào">
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:6px; font-weight:bold;">Chọn nhóm</label>
+          <select id="newWordGroup"
+            style="width:100%; padding:10px; border-radius:8px; border:none; box-sizing:border-box; background:#334155; color:white;">
+            <!-- Options added via JS -->
+          </select>
+        </div>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button class="back-btn" style="margin:0; padding:10px 20px;" onclick="closeAddWordModal()">Hủy</button>
+          <button class="submit-btn" style="margin:0; padding:10px 24px; background:#22c55e;"
+            onclick="saveNewWord()">Lưu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal xóa từ vựng -->
+    <div id="deleteWordModal"
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+      <div
+        style="background:#1e293b; padding:24px; border-radius:16px; width:90%; max-width:400px; color:white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <h2 style="margin-top:0; text-align:center; color:#f87171;">Xóa từ vựng</h2>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; margin-bottom:6px; font-weight:bold;">Chọn nhóm</label>
+          <select id="deleteWordGroup" onchange="populateDeleteWordList()"
+            style="width:100%; padding:10px; border-radius:8px; border:none; box-sizing:border-box; background:#334155; color:white;">
+            <!-- Options added via JS -->
+          </select>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; margin-bottom:6px; font-weight:bold;">Chọn từ cần xóa</label>
+          <select id="deleteWordSelect"
+            style="width:100%; padding:10px; border-radius:8px; border:none; box-sizing:border-box; background:#334155; color:white;">
+            <!-- Options populated dynamically -->
+          </select>
+        </div>
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <button class="back-btn" style="margin:0; padding:10px 20px;" onclick="closeDeleteWordModal()">Hủy</button>
+          <button class="submit-btn" style="margin:0; padding:10px 24px; background:#ef4444;"
+            onclick="deleteSelectedWord()">Xóa</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal chọn nhạc -->
+    <div id="musicModal"
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
+      <div
+        style="background:#1e293b; padding:24px; border-radius:16px; width:90%; max-width:400px; color:white; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <h2 style="margin-top:0; text-align:center; color:#60a5fa;">Danh sách nhạc</h2>
+        <div id="musicList"
+          style="max-height:200px; overflow-y:auto; margin-bottom:20px; background:#334155; border-radius:8px; padding:10px;">
+          <!-- List of songs will be injected here -->
+        </div>
+        <div style="display:flex; flex-direction: column; gap:12px;">
+          <label for="audioUpload" class="submit-btn"
+            style="margin:0; padding:10px; background:#3b82f6; text-align:center; cursor:pointer;">➕ Thêm nhạc
+            mới</label>
+          <input type="file" id="audioUpload" accept="audio/*" style="display: none;" onchange="addNewMusic(event)">
+          <button class="back-btn" style="margin:0; padding:10px; background:#64748b; color:white;"
+            onclick="closeMusicModal()">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ ===== -->
+    <div id="quizSection">
+      <button class="back-btn" onclick="goBack()">← Quay lại chọn nhóm</button>
+      <div id="groupBadge" style="text-align:center;margin-bottom:12px;"></div>
+      <div class="timer">⏱ có 6 phút nha thanh <span id="time">00:00</span></div>
+      <div id="quiz"></div>
+      <button class="submit-btn" onclick="submitQuiz()">Nộp bài</button>
+      <div id="messageBox">
+        <p>thanh có muốn tui updete gì thì nhắn vô đây tui nhận đc tin nhắn thôi, </p>
+        <textarea id="userMessage"
+          placeholder="ní gáy vài câu thì nhắn vô đây kk, à ní nghe phát âm tiếng anh rõ không á"></textarea>
+        <br>
+        <button id="sendMsgBtn" onclick="sendMessageOnly()">Gửi lời nhắn</button>
+        <div id="sendStatus"></div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop preload="auto">
+    <source src="nhac4.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    /* ===== 200 TỪ ===== */
+    const allData = [
+      // NHÓM A — 50 từ: Đàm phán (35) + Hội họp (15)
+      ["Negotiation", "Đàm phán"],
+      ["Counteroffer", "Đề nghị đối lại"],
+      ["Concession", "Nhượng bộ"],
+      ["Leverage", "Đòn bẩy / lợi thế"],
+      ["Bottom line", "Mức tối thiểu chấp nhận được"],
+      ["Deadlock", "Bế tắc đàm phán"],
+      ["Win-win", "Hai bên cùng có lợi"],
+      ["Bargaining", "Mặc cả"],
+      ["Mediation", "Hòa giải"],
+      ["Arbitration", "Trọng tài phán xử"],
+      ["Due diligence", "Thẩm định kỹ lưỡng"],
+      ["Good faith", "Thiện chí"],
+      ["Mutual agreement", "Thỏa thuận đôi bên"],
+      ["Terms and conditions", "Điều khoản và điều kiện"],
+      ["Binding agreement", "Thỏa thuận ràng buộc"],
+      ["Compromise", "Thỏa hiệp"],
+      ["Opening offer", "Đề nghị ban đầu"],
+      ["Closing a deal", "Chốt hợp đồng"],
+      ["Tender", "Đấu thầu / hồ sơ dự thầu"],
+      ["Bid", "Bỏ thầu / ra giá"],
+      ["Proposal", "Đề xuất"],
+      ["Trade-off", "Đánh đổi"],
+      ["Stalemate", "Thế bế tắc"],
+      ["Incentive", "Ưu đãi / động lực"],
+      ["Vendor", "Nhà cung cấp"],
+      ["Procurement", "Mua sắm / thu mua"],
+      ["RFQ", "Yêu cầu báo giá"],
+      ["MOU", "Biên bản ghi nhớ"],
+      ["LOI", "Thư ngỏ ý"],
+      ["Warranty", "Bảo hành"],
+      ["Penalty clause", "Điều khoản phạt"],
+      ["Price floor", "Giá sàn"],
+      ["Price ceiling", "Giá trần"],
+      ["Stakeholder", "Các bên liên quan"],
+      ["Negotiating table", "Bàn đàm phán"],
+      // Hội họp & Thuyết trình (15)
+      ["Agenda", "Chương trình nghị sự"],
+      ["Minutes", "Biên bản họp"],
+      ["Action items", "Các việc cần thực hiện"],
+      ["Quorum", "Số lượng tối thiểu để họp hợp lệ"],
+      ["Chairperson", "Người chủ trì"],
+      ["Facilitator", "Người điều phối"],
+      ["Brainstorming", "Động não / đề xuất ý tưởng"],
+      ["Consensus", "Sự đồng thuận"],
+      ["Debrief", "Tổng kết sau sự kiện"],
+      ["Follow-up", "Theo dõi / tiếp nối"],
+      ["Pitch", "Thuyết trình kêu gọi đầu tư"],
+      ["Slide deck", "Bộ slide thuyết trình"],
+      ["Key takeaways", "Điểm chính cần nhớ"],
+      ["Q&A session", "Phiên hỏi đáp"],
+      ["Teleconference", "Hội nghị qua điện thoại"],
+
+      // NHÓM B — 50 từ: Hội họp tiếp (20) + Tài chính (30)
+      ["Webinar", "Hội thảo trực tuyến"],
+      ["Video call", "Cuộc gọi video"],
+      ["Off-site meeting", "Họp ngoài văn phòng"],
+      ["Stand-up meeting", "Họp đứng hàng ngày"],
+      ["Roundtable", "Hội thảo bàn tròn"],
+      ["Podium", "Bục phát biểu"],
+      ["Handout", "Tài liệu phát tay"],
+      ["Executive summary", "Tóm tắt điều hành"],
+      ["Deliverable", "Kết quả đầu ra"],
+      ["Benchmark", "Tiêu chuẩn so sánh"],
+      ["KPI", "Chỉ số hiệu suất chính"],
+      ["Milestone", "Mốc quan trọng"],
+      ["Roadmap", "Lộ trình"],
+      ["Gantt chart", "Biểu đồ Gantt"],
+      ["Annual general meeting", "Đại hội cổ đông thường niên"],
+      ["Board of directors", "Hội đồng quản trị"],
+      ["Town hall", "Cuộc họp toàn công ty"],
+      ["Memo", "Thông báo nội bộ"],
+      ["Briefing", "Buổi thông báo ngắn"],
+      ["Stakeholder report", "Báo cáo cho các bên liên quan"],
+      // Tài chính (30)
+      ["Revenue", "Doanh thu"],
+      ["Profit margin", "Biên lợi nhuận"],
+      ["Break-even point", "Điểm hòa vốn"],
+      ["Cash flow", "Dòng tiền"],
+      ["Budget", "Ngân sách"],
+      ["Forecast", "Dự báo tài chính"],
+      ["Overhead costs", "Chi phí chung"],
+      ["ROI", "Lợi nhuận trên vốn đầu tư"],
+      ["Equity", "Vốn chủ sở hữu"],
+      ["Liability", "Nợ phải trả"],
+      ["Asset", "Tài sản"],
+      ["Balance sheet", "Bảng cân đối kế toán"],
+      ["Income statement", "Báo cáo kết quả kinh doanh"],
+      ["Depreciation", "Khấu hao"],
+      ["Dividend", "Cổ tức"],
+      ["CAPEX", "Chi phí đầu tư vốn"],
+      ["OPEX", "Chi phí vận hành"],
+      ["Gross profit", "Lợi nhuận gộp"],
+      ["Net profit", "Lợi nhuận ròng"],
+      ["Invoice", "Hóa đơn"],
+      ["Accounts receivable", "Khoản phải thu"],
+      ["Accounts payable", "Khoản phải trả"],
+      ["Credit line", "Hạn mức tín dụng"],
+      ["Interest rate", "Lãi suất"],
+      ["Loan", "Khoản vay"],
+      ["Subsidy", "Trợ cấp"],
+      ["Inflation", "Lạm phát"],
+      ["Exchange rate", "Tỷ giá hối đoái"],
+      ["Working capital", "Vốn lưu động"],
+      ["Fiscal year", "Năm tài chính"],
+
+      // NHÓM C — 50 từ: Tài chính tiếp (5) + Hợp đồng (30) + Kinh doanh QT (15)
+      ["Audit", "Kiểm toán"],
+      ["Tax compliance", "Tuân thủ thuế"],
+      ["Profit and loss", "Lãi và lỗ"],
+      ["Venture capital", "Vốn đầu tư mạo hiểm"],
+      ["IPO", "Phát hành cổ phiếu lần đầu"],
+      // Hợp đồng & Pháp lý (30)
+      ["Contract", "Hợp đồng"],
+      ["Clause", "Điều khoản"],
+      ["Breach of contract", "Vi phạm hợp đồng"],
+      ["Indemnification", "Bồi thường"],
+      ["Jurisdiction", "Thẩm quyền pháp lý"],
+      ["Compliance", "Tuân thủ quy định"],
+      ["Intellectual property", "Sở hữu trí tuệ"],
+      ["NDA", "Thỏa thuận bảo mật"],
+      ["Force majeure", "Bất khả kháng"],
+      ["Liability waiver", "Miễn trách nhiệm"],
+      ["Dispute resolution", "Giải quyết tranh chấp"],
+      ["Addendum", "Phụ lục bổ sung hợp đồng"],
+      ["Amendment", "Sửa đổi hợp đồng"],
+      ["Termination clause", "Điều khoản chấm dứt"],
+      ["Exclusivity", "Độc quyền"],
+      ["Confidentiality", "Bảo mật thông tin"],
+      ["Subcontractor", "Nhà thầu phụ"],
+      ["Scope of work", "Phạm vi công việc"],
+      ["Retainer", "Phí giữ chân dịch vụ"],
+      ["Renewal", "Gia hạn hợp đồng"],
+      ["Void", "Vô hiệu lực"],
+      ["Pro forma", "Hợp đồng / hóa đơn mẫu"],
+      ["Governing law", "Luật điều chỉnh"],
+      ["Counterparty", "Đối tác trong hợp đồng"],
+      ["Default", "Vi phạm nghĩa vụ"],
+      ["Penalty", "Hình phạt vi phạm"],
+      ["Signatory", "Người ký kết"],
+      ["Indemnity", "Trách nhiệm bồi thường"],
+      ["Signed and sealed", "Đã ký kết và đóng dấu"],
+      ["Deliverable timeline", "Thời hạn bàn giao"],
+      // Kinh doanh Quốc tế (15)
+      ["Export", "Xuất khẩu"],
+      ["Import", "Nhập khẩu"],
+      ["Tariff", "Thuế quan"],
+      ["Free trade agreement", "Hiệp định thương mại tự do"],
+      ["Trade deficit", "Thâm hụt thương mại"],
+      ["Trade surplus", "Thặng dư thương mại"],
+      ["Customs", "Hải quan"],
+      ["Letter of Credit", "Thư tín dụng"],
+      ["Bill of Lading", "Vận đơn đường biển"],
+      ["Incoterms", "Điều kiện thương mại quốc tế"],
+      ["Supply chain", "Chuỗi cung ứng"],
+      ["Logistics", "Hậu cần / vận chuyển"],
+      ["Freight", "Vận chuyển hàng hóa"],
+      ["Joint venture", "Liên doanh"],
+      ["Subsidiary", "Công ty con"],
+
+      // NHÓM D — 50 từ: Kinh doanh QT tiếp (15) + Giao tiếp DN (35)
+      ["Market entry", "Thâm nhập thị trường"],
+      ["Cross-border", "Xuyên biên giới"],
+      ["Emerging market", "Thị trường mới nổi"],
+      ["FDI", "Đầu tư trực tiếp nước ngoài"],
+      ["Quota", "Hạn ngạch"],
+      ["Embargo", "Cấm vận"],
+      ["Sanction", "Lệnh trừng phạt"],
+      ["Offshore", "Hoạt động ngoài nước"],
+      ["Currency risk", "Rủi ro tỷ giá"],
+      ["Globalization", "Toàn cầu hóa"],
+      ["Bilateral trade", "Thương mại song phương"],
+      ["Multilateral agreement", "Thỏa thuận đa phương"],
+      ["Trade mission", "Phái đoàn thương mại"],
+      ["Port of entry", "Cửa khẩu nhập cảnh"],
+      ["Distribution channel", "Kênh phân phối"],
+      // Giao tiếp Doanh nghiệp (35)
+      ["Business etiquette", "Nghi thức kinh doanh"],
+      ["Corporate communication", "Giao tiếp doanh nghiệp"],
+      ["Networking", "Xây dựng mạng lưới quan hệ"],
+      ["Business card", "Danh thiếp"],
+      ["Cold call", "Gọi điện chào hàng lạnh"],
+      ["Elevator pitch", "Thuyết trình ngắn gọn"],
+      ["Small talk", "Trò chuyện xã giao"],
+      ["Active listening", "Lắng nghe chủ động"],
+      ["Body language", "Ngôn ngữ cơ thể"],
+      ["Business correspondence", "Thư tín thương mại"],
+      ["Report writing", "Viết báo cáo"],
+      ["Professional tone", "Giọng điệu chuyên nghiệp"],
+      ["Conference call", "Cuộc gọi hội nghị"],
+      ["Press release", "Thông cáo báo chí"],
+      ["Brand ambassador", "Đại sứ thương hiệu"],
+      ["CRM", "Quản lý quan hệ khách hàng"],
+      ["Point of contact", "Đầu mối liên lạc"],
+      ["Escalation", "Chuyển lên cấp trên xử lý"],
+      ["Feedback loop", "Vòng phản hồi"],
+      ["Value proposition", "Giá trị cốt lõi mang lại"],
+      ["Outreach", "Tiếp cận đối tác / khách hàng"],
+      ["Internal memo", "Thông báo nội bộ"],
+      ["Soft skills", "Kỹ năng mềm"],
+      ["Conflict resolution", "Giải quyết mâu thuẫn"],
+      ["Empathy", "Sự đồng cảm"],
+      ["Persuasion", "Thuyết phục"],
+      ["Assertiveness", "Tính quyết đoán"],
+      ["Transparency", "Minh bạch"],
+      ["Rapport", "Sự thân thiện / gắn kết"],
+      ["Credibility", "Uy tín"],
+      ["Interpersonal skills", "Kỹ năng giao tiếp cá nhân"],
+      ["Business lunch", "Bữa trưa kinh doanh"],
+      ["Protocol", "Nghi thức / quy trình"],
+      ["Cc / Bcc", "Gửi kèm / Gửi kín email"],
+      ["Courtesy copy", "Bản sao lịch sự"],
+      // NHÓM E — 50 từ: Marketing & Bán hàng (30) + Nhân sự (20)
+      ["Target audience", "Khách hàng mục tiêu"],
+      ["Market share", "Thị phần"],
+      ["Brand awareness", "Nhận diện thương hiệu"],
+      ["Niche market", "Thị trường ngách"],
+      ["Lead generation", "Tạo khách hàng tiềm năng"],
+      ["Conversion rate", "Tỷ lệ chuyển đổi"],
+      ["Sales funnel", "Phễu bán hàng"],
+      ["Product placement", "Quảng cáo sản phẩm trong phim ảnh"],
+      ["Public relations", "Quan hệ công chúng (PR)"],
+      ["Campaign", "Chiến dịch"],
+      ["Demographics", "Nhân khẩu học"],
+      ["Endorsement", "Sự đại diện thương hiệu"],
+      ["Market research", "Nghiên cứu thị trường"],
+      ["Competitive advantage", "Lợi thế cạnh tranh"],
+      ["Upselling", "Bán gia tăng"],
+      ["Cross-selling", "Bán chéo"],
+      ["Customer retention", "Giữ chân khách hàng"],
+      ["Loyalty program", "Chương trình khách hàng thân thiết"],
+      ["Direct marketing", "Tiếp thị trực tiếp"],
+      ["Telemarketing", "Tiếp thị qua điện thoại"],
+      ["Viral marketing", "Tiếp thị lan truyền"],
+      ["SEO", "Tối ưu hóa công cụ tìm kiếm"],
+      ["B2B", "Doanh nghiệp với doanh nghiệp"],
+      ["B2C", "Doanh nghiệp với người tiêu dùng"],
+      ["Market penetration", "Thâm nhập thị trường"],
+      ["Slogan", "Khẩu hiệu"],
+      ["Billboard", "Biển quảng cáo ngoài trời"],
+      ["Pitch deck", "Bản trình bày chào hàng"],
+      ["Sales quota", "Chỉ tiêu doanh số"],
+      ["Cold email", "Email chào hàng lạnh"],
+      // Nhân sự (20)
+      ["Recruitment", "Tuyển dụng"],
+      ["Onboarding", "Quá trình hội nhập nhân viên"],
+      ["Turnover rate", "Tỷ lệ nghỉ việc"],
+      ["Compensation", "Lương thưởng"],
+      ["Fringe benefits", "Phúc lợi phụ cấp"],
+      ["Performance review", "Đánh giá hiệu suất"],
+      ["Payroll", "Bảng lương"],
+      ["Headhunter", "Chuyên gia săn đầu người"],
+      ["Probation period", "Thời gian thử việc"],
+      ["Termination", "Chấm dứt hợp đồng"],
+      ["Layoff", "Cắt giảm nhân sự"],
+      ["Resignation", "Từ chức"],
+      ["Sick leave", "Nghỉ ốm"],
+      ["Maternity leave", "Nghỉ thai sản"],
+      ["Pension", "Lương hưu"],
+      ["Severance pay", "Trợ cấp thôi việc"],
+      ["Timesheet", "Bảng chấm công"],
+      ["Background check", "Kiểm tra lý lịch"],
+      ["Grievance", "Khiếu nại của nhân viên"],
+      ["Workplace culture", "Văn hóa công sở"],
+
+      // NHÓM F — 50 từ: Nhân sự tiếp (10) + Quản lý dự án (25) + Vận hành (15)
+      ["Talent acquisition", "Thu hút nhân tài"],
+      ["Job description", "Mô tả công việc"],
+      ["Promotion", "Thăng chức"],
+      ["Demotion", "Giáng chức"],
+      ["Mentorship", "Chế độ cố vấn"],
+      ["Remuneration", "Tiền thù lao"],
+      ["Work-life balance", "Cân bằng công việc và cuộc sống"],
+      ["Remote work", "Làm việc từ xa"],
+      ["Employee engagement", "Sự gắn kết của nhân viên"],
+      ["Disciplinary action", "Hành động kỷ luật"],
+      // Quản lý dự án (25)
+      ["Project scope", "Phạm vi dự án"],
+      ["Scope creep", "Sự lan rộng phạm vi ngoài kiểm soát"],
+      ["Baseline", "Kế hoạch cơ sở"],
+      ["Agile", "Phương pháp quản lý linh hoạt"],
+      ["Scrum", "Khung làm việc Scrum"],
+      ["Sprint", "Chu kỳ làm việc ngắn"],
+      ["Backlog", "Danh sách công việc tồn đọng"],
+      ["Bottleneck", "Điểm nghẽn"],
+      ["Critical path", "Đường găng dự án"],
+      ["Contingency plan", "Kế hoạch dự phòng"],
+      ["Risk management", "Quản lý rủi ro"],
+      ["Feasibility study", "Nghiên cứu tính khả thi"],
+      ["Resource allocation", "Phân bổ nguồn lực"],
+      ["Output", "Đầu ra"],
+      ["Outcome", "Kết quả cuối cùng"],
+      ["Workflow", "Quy trình làm việc"],
+      ["Kickoff meeting", "Họp khởi động dự án"],
+      ["Deadline", "Hạn chót"],
+      ["Task delegation", "Giao việc"],
+      ["Time tracking", "Theo dõi thời gian"],
+      ["Standup", "Cuộc họp ngắn hàng ngày"],
+      ["Iteration", "Vòng lặp"],
+      ["Velocity", "Vận tốc làm việc"],
+      ["Burn-down chart", "Biểu đồ tiến độ"],
+      ["Acceptance criteria", "Tiêu chí nghiệm thu"],
+      // Vận hành (15)
+      ["Operations management", "Quản lý vận hành"],
+      ["Supply and demand", "Cung và cầu"],
+      ["Inventory", "Hàng tồn kho"],
+      ["Outsourcing", "Thuê ngoài"],
+      ["Insourcing", "Tự thực hiện nội bộ"],
+      ["Lead time", "Thời gian thực hiện đơn hàng"],
+      ["Downtime", "Thời gian ngừng hoạt động"],
+      ["Fulfillment", "Thực hiện đơn hàng"],
+      ["Quality assurance", "Đảm bảo chất lượng (QA)"],
+      ["Quality control", "Kiểm soát chất lượng (QC)"],
+      ["Just-in-time", "Sản xuất kịp thời"],
+      ["Warehousing", "Lưu kho"],
+      ["Backorder", "Đơn hàng chờ giao"],
+      ["Capacity", "Công suất"],
+      ["Throughput", "Thông lượng / Sản lượng"],
+
+      // NHÓM G — 50 từ: Công nghệ (30) + Dịch vụ khách hàng (20)
+      ["Digital transformation", "Chuyển đổi số"],
+      ["Cloud computing", "Điện toán đám mây"],
+      ["Data analytics", "Phân tích dữ liệu"],
+      ["Artificial Intelligence", "Trí tuệ nhân tạo (AI)"],
+      ["Machine learning", "Học máy"],
+      ["Big data", "Dữ liệu lớn"],
+      ["Cybersecurity", "An ninh mạng"],
+      ["Firewall", "Tường lửa"],
+      ["Encryption", "Mã hóa"],
+      ["Data breach", "Rò rỉ dữ liệu"],
+      ["User interface", "Giao diện người dùng (UI)"],
+      ["User experience", "Trải nghiệm người dùng (UX)"],
+      ["Dashboard", "Bảng điều khiển"],
+      ["Software as a Service", "Phần mềm như một dịch vụ (SaaS)"],
+      ["Internet of Things", "Internet vạn vật (IoT)"],
+      ["Automation", "Tự động hóa"],
+      ["Bandwidth", "Băng thông"],
+      ["Server", "Máy chủ"],
+      ["Database", "Cơ sở dữ liệu"],
+      ["API", "Giao diện lập trình ứng dụng"],
+      ["Open source", "Mã nguồn mở"],
+      ["Debugging", "Gỡ lỗi"],
+      ["Phishing", "Lừa đảo qua mạng"],
+      ["Malware", "Phần mềm độc hại"],
+      ["Ransomware", "Mã độc tống tiền"],
+      ["Blockchain", "Chuỗi khối"],
+      ["Tech stack", "Ngăn xếp công nghệ"],
+      ["Outage", "Sự cố mất điện / mạng"],
+      ["Uptime", "Thời gian hoạt động bình thường"],
+      ["Scalability", "Khả năng mở rộng"],
+      // Dịch vụ khách hàng (20)
+      ["Customer satisfaction", "Sự hài lòng của khách hàng"],
+      ["Complaint", "Phàn nàn"],
+      ["Resolution", "Cách giải quyết"],
+      ["Helpdesk", "Bộ phận hỗ trợ kỹ thuật"],
+      ["Ticket", "Phiếu yêu cầu hỗ trợ"],
+      ["Warranty claim", "Yêu cầu bảo hành"],
+      ["Refund", "Hoàn tiền"],
+      ["Store credit", "Tiền tích lũy trong cửa hàng"],
+      ["FAQ", "Câu hỏi thường gặp"],
+      ["Call center", "Trung tâm cuộc gọi"],
+      ["Chatbot", "Trợ lý ảo"],
+      ["Empathy", "Sự đồng cảm"],
+      ["De-escalation", "Làm dịu căng thẳng"],
+      ["First contact resolution", "Xử lý ngay lần đầu liên hệ"],
+      ["Follow-up call", "Cuộc gọi chăm sóc lại"],
+      ["Customer loyalty", "Sự trung thành của khách hàng"],
+      ["Word of mouth", "Truyền miệng"],
+      ["Client retention", "Tỷ lệ giữ chân khách hàng"],
+      ["Onboarding client", "Hướng dẫn khách hàng mới"],
+      ["Testimonial", "Đánh giá của khách hàng"],
+
+      // NHÓM H — 50 từ: Chiến lược & Lãnh đạo (30) + Bán lẻ & Phân phối (20)
+      ["Core values", "Giá trị cốt lõi"],
+      ["Mission statement", "Tuyên bố sứ mệnh"],
+      ["Vision", "Tầm nhìn"],
+      ["Strategic planning", "Hoạch định chiến lược"],
+      ["Synergy", "Sự hiệp lực"],
+      ["Paradigm shift", "Sự thay đổi tư duy / mô hình"],
+      ["Best practice", "Thực tiễn tốt nhất"],
+      ["Core competency", "Năng lực cốt lõi"],
+      ["Competitive intelligence", "Tình báo cạnh tranh"],
+      ["Market positioning", "Định vị thị trường"],
+      ["Diversification", "Đa dạng hóa"],
+      ["Mergers and Acquisitions", "Mua bán và sáp nhập (M&A)"],
+      ["Takeover", "Thâu tóm"],
+      ["Restructuring", "Tái cấu trúc"],
+      ["Turnaround", "Phục hồi công ty"],
+      ["Succession planning", "Kế hoạch kế nhiệm"],
+      ["Autonomy", "Quyền tự chủ"],
+      ["Micro-management", "Quản lý vi mô"],
+      ["Empowerment", "Trao quyền"],
+      ["Accountability", "Trách nhiệm giải trình"],
+      ["Disruptive innovation", "Đổi mới đột phá"],
+      ["Catalyst", "Nhân tố xúc tác"],
+      ["Value chain", "Chuỗi giá trị"],
+      ["Sustainability", "Sự bền vững"],
+      ["CSR", "Trách nhiệm xã hội của doanh nghiệp"],
+      ["Boardroom", "Phòng họp hội đồng quản trị"],
+      ["C-suite", "Nhóm giám đốc cấp cao"],
+      ["Entrepreneurship", "Tinh thần khởi nghiệp"],
+      ["Delegation", "Sự ủy quyền"],
+      ["Visionary", "Người có tầm nhìn xa"],
+      // Bán lẻ & Phân phối (20)
+      ["Wholesale", "Bán buôn"],
+      ["Retail", "Bán lẻ"],
+      ["Franchise", "Nhượng quyền thương mại"],
+      ["Distributor", "Nhà phân phối"],
+      ["Point of sale", "Điểm bán hàng"],
+      ["Merchandising", "Nghệ thuật trưng bày hàng hóa"],
+      ["Showroom", "Phòng trưng bày"],
+      ["Inventory turnover", "Vòng quay hàng tồn kho"],
+      ["Markdown", "Giảm giá"],
+      ["Markup", "Tăng giá"],
+      ["Stockout", "Hết hàng"],
+      ["Overstock", "Tồn kho dư thừa"],
+      ["Brick and mortar", "Cửa hàng truyền thống"],
+      ["Omnichannel", "Bán hàng đa kênh"],
+      ["Packaging", "Bao bì"],
+      ["Shelf life", "Thời hạn sử dụng"],
+      ["Barcode", "Mã vạch"],
+      ["Consignment", "Gửi bán"],
+      ["Department store", "Cửa hàng bách hóa"],
+      ["Pop-up shop", "Cửa hàng tạm thời"],
+
+      // NHÓM I — 50 từ: Khởi nghiệp (25) + Ngân hàng & Tín dụng (25)
+      ["Startup", "Công ty khởi nghiệp"],
+      ["Incubator", "Vườn ươm khởi nghiệp"],
+      ["Accelerator", "Chương trình tăng tốc khởi nghiệp"],
+      ["Angel investor", "Nhà đầu tư thiên thần"],
+      ["Venture capitalist", "Nhà đầu tư mạo hiểm"],
+      ["Seed funding", "Vốn hạt giống"],
+      ["Crowdfunding", "Gọi vốn cộng đồng"],
+      ["Bootstrapping", "Khởi nghiệp tự lực"],
+      ["Valuation", "Định giá công ty"],
+      ["Unicorn", "Kỳ lân (Startup tỷ đô)"],
+      ["MVP", "Sản phẩm khả dụng tối thiểu"],
+      ["Pivot", "Chuyển hướng kinh doanh"],
+      ["Burn rate", "Tốc độ đốt tiền"],
+      ["Runway", "Thời gian duy trì hoạt động"],
+      ["Traction", "Sự thu hút khách hàng ban đầu"],
+      ["Monetization", "Khả năng kiếm tiền"],
+      ["Exit strategy", "Chiến lược rút vốn"],
+      ["Co-founder", "Người đồng sáng lập"],
+      ["Equity", "Cổ phần"],
+      ["Term sheet", "Bản điều khoản gọi vốn"],
+      ["Early adopter", "Người dùng tiên phong"],
+      ["Pitching", "Việc thuyết trình gọi vốn"],
+      ["Scalable", "Có khả năng mở rộng quy mô"],
+      ["Disruptor", "Yếu tố phá vỡ thị trường"],
+      ["Beta testing", "Thử nghiệm bản Beta"],
+      // Ngân hàng & Tín dụng (25)
+      ["Bank statement", "Sao kê ngân hàng"],
+      ["Overdraft", "Thấu chi"],
+      ["Wire transfer", "Chuyển khoản"],
+      ["Collateral", "Tài sản thế chấp"],
+      ["Mortgage", "Khoản vay thế chấp (mua nhà)"],
+      ["Credit score", "Điểm tín dụng"],
+      ["Debit", "Ghi nợ"],
+      ["Deposit", "Tiền gửi"],
+      ["Withdrawal", "Rút tiền"],
+      ["Bankruptcy", "Phá sản"],
+      ["Liquidity", "Tính thanh khoản"],
+      ["Amortization", "Trả góp / Khấu hao"],
+      ["Promissory note", "Kỳ phiếu"],
+      ["Guarantor", "Người bảo lãnh"],
+      ["Installment", "Trả góp"],
+      ["Grace period", "Thời gian ân hạn"],
+      ["Remittance", "Kiều hối"],
+      ["Teller", "Giao dịch viên ngân hàng"],
+      ["Vault", "Két sắt"],
+      ["Clearing", "Thanh toán bù trừ"],
+      ["Routing number", "Mã định tuyến ngân hàng"],
+      ["ATM", "Máy rút tiền tự động"],
+      ["Interest accrual", "Tiền lãi phát sinh"],
+      ["Overdue", "Quá hạn"],
+      ["Foreclosure", "Tịch thu tài sản thế chấp"],
+
+      // NHÓM J — 50 từ: Sản xuất & Quản lý chất lượng (25) + Thương mại điện tử (25)
+      ["Manufacturing", "Sản xuất"],
+      ["Assembly line", "Dây chuyền lắp ráp"],
+      ["Raw materials", "Nguyên liệu thô"],
+      ["Production capacity", "Năng lực sản xuất"],
+      ["Yield", "Sản lượng"],
+      ["Lean manufacturing", "Sản xuất tinh gọn"],
+      ["Six Sigma", "Phương pháp Six Sigma"],
+      ["Defect", "Khuyết tật / Lỗi"],
+      ["Scrap", "Phế liệu"],
+      ["Batch", "Lô hàng"],
+      ["Work in progress", "Bán thành phẩm"],
+      ["Finished goods", "Thành phẩm"],
+      ["Standardization", "Tiêu chuẩn hóa"],
+      ["Tolerances", "Dung sai"],
+      ["Machinery", "Máy móc"],
+      ["Maintenance", "Bảo trì"],
+      ["Breakdown", "Hỏng hóc"],
+      ["Overhaul", "Đại tu"],
+      ["Plant", "Nhà máy"],
+      ["Continuous improvement", "Cải tiến liên tục"],
+      ["Inspection", "Kiểm tra"],
+      ["Calibrate", "Hiệu chuẩn"],
+      ["Specification", "Thông số kỹ thuật"],
+      ["Ergonomics", "Công thái học"],
+      ["Assembly", "Việc lắp ráp"],
+      // Thương mại điện tử (25)
+      ["E-commerce", "Thương mại điện tử"],
+      ["Shopping cart", "Giỏ hàng"],
+      ["Checkout", "Trả tiền / Thanh toán"],
+      ["Payment gateway", "Cổng thanh toán"],
+      ["Affiliate marketing", "Tiếp thị liên kết"],
+      ["Dropshipping", "Bán hàng bỏ qua khâu vận chuyển"],
+      ["Marketplace", "Sàn giao dịch điện tử"],
+      ["Bounce rate", "Tỷ lệ thoát trang"],
+      ["Fulfillment center", "Trung tâm hoàn tất đơn hàng"],
+      ["User-generated content", "Nội dung do người dùng tạo"],
+      ["Cookie", "Tệp dữ liệu duyệt web"],
+      ["Landing page", "Trang đích"],
+      ["Abandoned cart", "Giỏ hàng bị bỏ rơi"],
+      ["Cyber Monday", "Thứ Hai mua sắm trực tuyến"],
+      ["Black Friday", "Thứ Sáu đen tối"],
+      ["Promo code", "Mã khuyến mãi"],
+      ["Cashback", "Hoàn tiền"],
+      ["Flash sale", "Bán hàng chớp nhoáng"],
+      ["Product review", "Đánh giá sản phẩm"],
+      ["Rating", "Xếp hạng"],
+      ["Newsletter", "Bản tin"],
+      ["Subscriber", "Người đăng ký"],
+      ["Digital wallet", "Ví điện tử"],
+      ["SSL certificate", "Chứng chỉ bảo mật SSL"],
+      ["Shopping spree", "Chuyến mua sắm thả ga"]
+    ];
+
+    const groupInfo = [
+      { label: "📘 Nhóm A — Đàm phán & Hội họp", badge: "badge-a", start: 0, end: 50 },
+      { label: "📙 Nhóm B — Tài chính & Ngân sách", badge: "badge-b", start: 50, end: 100 },
+      { label: "📒 Nhóm C — Hợp đồng & Kinh doanh QT", badge: "badge-c", start: 100, end: 150 },
+      { label: "📗 Nhóm D — Giao tiếp Doanh nghiệp", badge: "badge-d", start: 150, end: 200 },
+      { label: "📕 Nhóm E — Marketing & Nhân sự", badge: "badge-e", start: 200, end: 250 },
+      { label: "📔 Nhóm F — QL Dự án & Vận hành", badge: "badge-f", start: 250, end: 300 },
+      { label: "📓 Nhóm G — Công nghệ & DVKH", badge: "badge-g", start: 300, end: 350 },
+      { label: "📒 Nhóm H — Chiến lược & Bán lẻ", badge: "badge-h", start: 350, end: 400 },
+      { label: "📘 Nhóm I — Khởi nghiệp & Ngân hàng", badge: "badge-i", start: 400, end: 450 },
+      { label: "📙 Nhóm J — Sản xuất & TMĐT", badge: "badge-j", start: 450, end: 500 },
+    ];
+
+    let quizScore = null, quizTotal = null, quizMessage = "";
+    let currentTimer = null, submitted = false, elapsed = 0;
+    const totalSeconds = 360;
+    let currentData = [];
+    const viToEn = {};
+    allData.forEach(p => { viToEn[p[1]] = p[0]; });
+    (JSON.parse(localStorage.getItem('customWords')) || []).forEach(w => { viToEn[w.vi] = w.en; });
+
+    let cachedVoice = null, ttsWarmedUp = false;
+    function initVoices() {
+      const v = window.speechSynthesis.getVoices();
+      if (v.length > 0)
+        cachedVoice = v.find(x => x.lang.startsWith("en") && (x.lang.includes("US") || x.lang.includes("GB")))
+          || v.find(x => x.lang.startsWith("en")) || null;
+    }
+    initVoices();
+    window.speechSynthesis.onvoiceschanged = initVoices;
+
+    function warmUpTTS() {
+      if (ttsWarmedUp || !window.speechSynthesis) return;
+      ttsWarmedUp = true;
+      const u = new SpeechSynthesisUtterance(" "); u.volume = 0;
+      window.speechSynthesis.speak(u);
+    }
+    function speakEnglish(word) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      setTimeout(() => {
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang = "en-US"; u.rate = 1.0; u.pitch = 1.0; u.volume = 1;
+        if (cachedVoice) u.voice = cachedVoice;
+        window.speechSynthesis.speak(u);
+      }, 50);
+    }
+
+    function shuffle(a) {
+      for (let i = a.length - 1; i > 0; i--) { let j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+
+    let currentGroupName = "";
+    let quizWrongSummary = "";
+
+    function startGroup(idx) {
+      const g = groupInfo[idx];
+      currentGroupName = g.label;
+      let deletedWords = JSON.parse(localStorage.getItem('deletedWords')) || [];
+      let baseData = allData.slice(g.start, g.end).filter(w => !deletedWords.includes(w[0]));
+
+      let customWords = JSON.parse(localStorage.getItem('customWords')) || [];
+      let groupCustomWords = customWords.filter(w => w.groupIndex == idx).map(w => [w.en, w.vi]);
+
+      currentData = shuffle([...baseData, ...groupCustomWords]);
+      submitted = false; elapsed = 0;
+      if (currentTimer) clearInterval(currentTimer);
+
+      document.getElementById("groupSelect").style.display = "none";
+      document.getElementById("addWordContainer").style.display = "none";
+      document.getElementById("quizSection").style.display = "block";
+
+      // Badge
+      const badge = document.getElementById("groupBadge");
+      badge.innerHTML = `<span class="group-badge ${g.badge}">${g.label}</span>`;
+
+      // Tạo câu hỏi
+      const quizEl = document.getElementById("quiz");
+      quizEl.innerHTML = "";
+      currentData.forEach((q, i) => {
+        const correct = q[1];
+        const pool = currentData.map(x => x[1]).filter(v => v !== correct);
+        const wrong = shuffle(pool).slice(0, 3);
+        const answers = shuffle([correct, ...wrong]);
+        const div = document.createElement("div");
+        div.className = "question";
+        div.dataset.correct = correct;
+        div.innerHTML = `<strong>Câu ${i + 1}: ${q[0]}</strong>
+      <div class="answers">${answers.map((a, j) => `
+        <label><input type="radio" name="q${i}" value="${a}">
+        ${String.fromCharCode(65 + j)}. ${a}</label>`).join("")}
+      </div>`;
+        quizEl.appendChild(div);
+      });
+
+      // Gắn phát âm
+      quizEl.querySelectorAll(".answers label").forEach(label => {
+        label.addEventListener("pointerdown", () => {
+          warmUpTTS();
+          const input = label.querySelector("input");
+          if (!input) return;
+          const en = viToEn[input.value];
+          if (en) speakEnglish(en);
+        });
+      });
+
+      // Reset timer
+      const timeEl = document.getElementById("time");
+      timeEl.textContent = "00:00";
+      currentTimer = setInterval(() => {
+        elapsed++;
+        const m = Math.floor(elapsed / 60), s = elapsed % 60;
+        timeEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        if (elapsed >= totalSeconds) {
+          clearInterval(currentTimer);
+          if (!submitted) { alert("⏰ Hết giờ!"); submitQuiz(); }
+        }
+      }, 1000);
+
+      // (Nhạc nền tự động phát khi click bất kỳ đâu trên trang)
+    }
+
+    function goBack() {
+      if (currentTimer) clearInterval(currentTimer);
+      window.speechSynthesis.cancel();
+      document.getElementById("quizSection").style.display = "none";
+      document.getElementById("groupSelect").style.display = "flex";
+      document.getElementById("addWordContainer").style.display = "block";
+      document.getElementById("sendStatus").textContent = "";
+    }
+
+    function submitQuiz() {
+      if (submitted) return;
+      submitted = true;
+      clearInterval(currentTimer);
+      window.speechSynthesis.cancel();
+
+      let score = 0;
+      let wrongDetails = [];
+      document.querySelectorAll(".question").forEach(q => {
+        const correct = q.dataset.correct;
+        const chosen = q.querySelector("input:checked");
+        const questionText = q.querySelector("strong").textContent.trim();
+
+        q.querySelectorAll("label").forEach(lb => {
+          if (lb.querySelector("input").value === correct) lb.classList.add("correct");
+        });
+
+        if (chosen) {
+          if (chosen.value === correct) {
+            score++;
+          } else {
+            chosen.parentElement.classList.add("wrong");
+            wrongDetails.push(`${questionText}\n  ❌ Đã chọn: ${chosen.value}\n  ✅ Đáp án đúng: ${correct}`);
+          }
+        } else {
+          wrongDetails.push(`${questionText}\n  ❌ Đã chọn: (Bỏ trống)\n  ✅ Đáp án đúng: ${correct}`);
+        }
+      });
+
+      quizWrongSummary = wrongDetails.length > 0
+        ? "CHI TIẾT CÁC CÂU SAI:\n\n" + wrongDetails.join("\n\n")
+        : "🎉 Tuyệt vời! Không sai câu nào!";
+      document.querySelectorAll("input[type=radio]").forEach(i => i.disabled = true);
+
+      const total = currentData.length;
+      const pct = Math.floor((score / total) * 100);
+      let msg = "";
+      if (score === total) msg = "🏆 thanh thật tuyệt vời quá 10 điểm gót chóp năm bờ vang!";
+      else if (pct >= 83) msg = "👏 thanh giỏi quá!";
+      else if (pct >= 67) msg = "🤔 thanh quên rồi chứ gì!";
+      else if (pct >= 50) msg = "😢 thanh làm tôi buồn hen!";
+      else msg = "😴 Cố gắng hơn nhé!";
+
+      quizScore = score; quizTotal = total; quizMessage = msg;
+      alert("🎯 KẾT QUẢ thanh È\n\n✅ Đúng: " + score + " / " + total + " câu\n\n" + msg);
+      sendToFormspree(score, total, msg, "");
+    }
+
+    function sendMessageOnly() {
+      const note = document.getElementById("userMessage").value.trim();
+      const statusEl = document.getElementById("sendStatus");
+      const btn = document.getElementById("sendMsgBtn");
+      if (!note) { statusEl.style.color = "#fca5a5"; statusEl.textContent = "Bạn chưa gõ nội dung gì hết!"; return; }
+      statusEl.style.color = "#facc15"; statusEl.textContent = "Đang gửi..."; btn.disabled = true;
+      const scoreText = quizScore !== null
+        ? `✅ Đúng: ${quizScore}/${quizTotal} câu (${Math.floor((quizScore / quizTotal) * 100)}%) — ${quizMessage}`
+        : "(Chưa nộp bài)";
+      const payload = {
+        _to: "tienganhthanh06@gmail.com",
+        _subject: "💌 Lời nhắn từ thanh",
+        loi_nhan: note, ket_qua_quiz: scoreText,
+        nhom_da_hoc: currentGroupName || "(Chưa chọn nhóm)",
+        chi_tiet_cau_sai: quizWrongSummary || "",
+        date: new Date().toLocaleString('vi-VN')
+      };
+      fetch("https://formspree.io/f/mvzybwzp", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) })
+        .then(res => {
+          if (res.ok) { statusEl.style.color = "#86efac"; statusEl.textContent = "✅ Đã gửi lời nhắn thành công rồi nha!"; document.getElementById("userMessage").value = ""; }
+          else throw new Error();
+        })
+        .catch(() => {
+          const sub = encodeURIComponent("💌 Lời nhắn từ thanh");
+          const body = encodeURIComponent(`Lời nhắn:\n${note}\n\nNhóm: ${currentGroupName || "(Chưa có)"}\nKết quả quiz:\n${scoreText}\n\n${quizWrongSummary}\n\nNgày: ${new Date().toLocaleString('vi-VN')}`);
+          window.location.href = `mailto:tienganhthanh06@gmail.com?subject=${sub}&body=${body}`;
+          statusEl.style.color = "#facc15"; statusEl.textContent = "📧 Mở ứng dụng email để gửi nhé!";
+        })
+        .finally(() => { btn.disabled = false; });
+    }
+
+    function sendToFormspree(score, total, message, note) {
+      const payload = {
+        _to: "tienganhthanh06@gmail.com",
+        _subject: `🎯 Kết quả Quiz: ${score}/${total} câu đúng - ${currentGroupName}`,
+        nhom_da_hoc: currentGroupName,
+        score, total, percentage: Math.floor((score / total) * 100),
+        message, loi_nhan: note || "(chưa gửi lời nhắn)",
+        chi_tiet_cau_sai: quizWrongSummary,
+        date: new Date().toLocaleString('vi-VN'),
+        time_spent: Math.floor(Math.min(elapsed, totalSeconds) / 60) + " phút " + Math.min(elapsed, totalSeconds) % 60 + " giây"
+      };
+      fetch("https://formspree.io/f/mvzybwzp", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) })
+        .then(res => { if (res.ok) console.log('✅ Kết quả đã gửi!'); })
+        .catch(err => {
+          const sub = encodeURIComponent(`🎯 Kết quả Quiz: ${score}/${total} câu đúng - ${currentGroupName}`);
+          const body = encodeURIComponent(`✅ Đúng: ${score}/${total} câu\n📊 ${Math.floor((score / total) * 100)}%\n📅 ${new Date().toLocaleString('vi-VN')}\n\nNhóm: ${currentGroupName}\n\n${message}\n\n${quizWrongSummary}`);
+          window.location.href = `mailto:tienganhthanh06@gmail.com?subject=${sub}&body=${body}`;
+        });
+    }
+
+    /* TUYẾT */
+    function createSnowflake() {
+      const s = document.createElement("div"); s.className = "snowflake"; s.innerHTML = "❄";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.animationDuration = Math.random() * 3 + 2 + "s";
+      s.style.opacity = Math.random();
+      s.style.fontSize = Math.random() * 10 + 10 + "px";
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 5000);
+    }
+    setInterval(createSnowflake, 200);
+
+    /* QUẢN LÝ NHẠC BẰNG INDEXEDDB */
+    const DB_NAME = "MusicDB";
+    const STORE_NAME = "songs";
+    let musicDB;
+
+    function initMusicDB() {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+        }
+      };
+      request.onsuccess = (e) => {
+        musicDB = e.target.result;
+      };
+    }
+    initMusicDB();
+
+    function openMusicModal() {
+      document.getElementById("musicModal").style.display = "flex";
+      renderMusicList();
+    }
+
+    function closeMusicModal() {
+      document.getElementById("musicModal").style.display = "none";
+    }
+
+    function renderMusicList() {
+      const listEl = document.getElementById("musicList");
+      listEl.innerHTML = `<div style="padding:8px; border-bottom:1px solid #475569; display:flex; justify-content:space-between; align-items:center;">
+        <span>🎵 Nhạc mặc định</span>
+        <button style="background:#10b981; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;" onclick="playMusic('default', 'nhac4.mp3')">Phát</button>
+      </div>`;
+
+      if (!musicDB) return;
+      const tx = musicDB.transaction(STORE_NAME, "readonly");
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.getAll();
+      req.onsuccess = () => {
+        const songs = req.result;
+        songs.forEach(song => {
+          const div = document.createElement("div");
+          div.style.cssText = "padding:8px; border-bottom:1px solid #475569; display:flex; justify-content:space-between; align-items:center; margin-top:8px;";
+          div.innerHTML = `
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:55%;" title="${song.name}">${song.name}</span>
+            <div style="display:flex; gap:4px;">
+              <button style="background:#10b981; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;" onclick="playMusic('custom', ${song.id})">Phát</button>
+              <button style="background:#ef4444; color:white; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;" onclick="deleteMusic(${song.id})">Xóa</button>
+            </div>
+          `;
+          listEl.appendChild(div);
+        });
+      };
+    }
+
+    function addNewMusic(event) {
+      const file = event.target.files[0];
+      if (!file || !musicDB) return;
+      const tx = musicDB.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+      store.add({ name: file.name, data: file });
+      tx.oncomplete = () => {
+        alert("Đã tải nhạc lên thành công!");
+        renderMusicList();
+      };
+      event.target.value = ""; // Reset input
+    }
+
+    function deleteMusic(id) {
+      if (!confirm("Bạn có chắc muốn xóa bài nhạc này?")) return;
+      const tx = musicDB.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+      store.delete(id);
+      tx.oncomplete = () => {
+        renderMusicList();
+      };
+    }
+
+    let currentObjectURL = null;
+    function playMusic(type, payload) {
+      const bgMusic = document.getElementById("bgMusic");
+      if (currentObjectURL) {
+        URL.revokeObjectURL(currentObjectURL);
+        currentObjectURL = null;
+      }
+
+      if (type === 'default') {
+        bgMusic.src = payload;
+        bgMusic.volume = 0.15;
+        bgMusic.play().catch(() => { });
+        alert("Đã chuyển sang Nhạc mặc định!");
+        closeMusicModal();
+      } else if (type === 'custom') {
+        const tx = musicDB.transaction(STORE_NAME, "readonly");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.get(payload);
+        req.onsuccess = () => {
+          if (req.result) {
+            currentObjectURL = URL.createObjectURL(req.result.data);
+            bgMusic.src = currentObjectURL;
+            bgMusic.volume = 0.15;
+            bgMusic.play().catch(() => { });
+            alert("Đang phát: " + req.result.name);
+            closeMusicModal();
+          }
+        };
+      }
+    }
+
+    /* MODAL THÊM TỪ VỰNG */
+    function openAddWordModal() {
+      const select = document.getElementById("newWordGroup");
+      if (select.options.length === 0) {
+        groupInfo.forEach((g, i) => {
+          let opt = document.createElement("option");
+          opt.value = i;
+          opt.textContent = g.label;
+          select.appendChild(opt);
+        });
+      }
+      document.getElementById("addWordModal").style.display = "flex";
+    }
+
+    function closeAddWordModal() {
+      document.getElementById("addWordModal").style.display = "none";
+      document.getElementById("newWordEn").value = "";
+      document.getElementById("newWordVi").value = "";
+    }
+
+    function saveNewWord() {
+      const en = document.getElementById("newWordEn").value.trim();
+      const vi = document.getElementById("newWordVi").value.trim();
+      const groupIdx = parseInt(document.getElementById("newWordGroup").value);
+      if (!en || !vi) {
+        alert("Vui lòng nhập đầy đủ từ tiếng Anh và nghĩa tiếng Việt.");
+        return;
+      }
+
+      let customWords = JSON.parse(localStorage.getItem('customWords')) || [];
+      customWords.push({ groupIndex: groupIdx, en: en, vi: vi });
+      localStorage.setItem('customWords', JSON.stringify(customWords));
+
+      viToEn[vi] = en; // Cập nhật từ điển phát âm
+
+      alert("Đã thêm từ vựng thành công! Từ vựng sẽ hiển thị khi bạn vào làm bài quiz của nhóm tương ứng.");
+      closeAddWordModal();
+    }
+
+    /* MODAL XÓA TỪ VỰNG */
+    function openDeleteWordModal() {
+      const select = document.getElementById("deleteWordGroup");
+      if (select.options.length === 0) {
+        groupInfo.forEach((g, i) => {
+          let opt = document.createElement("option");
+          opt.value = i;
+          opt.textContent = g.label;
+          select.appendChild(opt);
+        });
+      }
+      populateDeleteWordList();
+      document.getElementById("deleteWordModal").style.display = "flex";
+    }
+
+    function closeDeleteWordModal() {
+      document.getElementById("deleteWordModal").style.display = "none";
+    }
+
+    function populateDeleteWordList() {
+      const groupIdx = parseInt(document.getElementById("deleteWordGroup").value);
+      const select = document.getElementById("deleteWordSelect");
+      select.innerHTML = "";
+
+      const g = groupInfo[groupIdx];
+      let deletedWords = JSON.parse(localStorage.getItem('deletedWords')) || [];
+      let baseData = allData.slice(g.start, g.end);
+
+      baseData.forEach((w) => {
+        if (!deletedWords.includes(w[0])) {
+          let opt = document.createElement("option");
+          opt.value = "default|" + w[0];
+          opt.textContent = w[0] + " - " + w[1];
+          select.appendChild(opt);
+        }
+      });
+
+      let customWords = JSON.parse(localStorage.getItem('customWords')) || [];
+      customWords.forEach((w, i) => {
+        if (w.groupIndex === groupIdx) {
+          let opt = document.createElement("option");
+          opt.value = "custom|" + i;
+          opt.textContent = w.en + " - " + w.vi + " (Tự thêm)";
+          select.appendChild(opt);
+        }
+      });
+    }
+
+    function deleteSelectedWord() {
+      const select = document.getElementById("deleteWordSelect");
+      if (!select.value) {
+        alert("Vui lòng chọn từ cần xóa!");
+        return;
+      }
+
+      const [type, val] = select.value.split("|");
+      if (confirm("Bạn có chắc chắn muốn xóa từ này không?")) {
+        if (type === "default") {
+          let deletedWords = JSON.parse(localStorage.getItem('deletedWords')) || [];
+          deletedWords.push(val);
+          localStorage.setItem('deletedWords', JSON.stringify(deletedWords));
+        } else if (type === "custom") {
+          let customWords = JSON.parse(localStorage.getItem('customWords')) || [];
+          customWords.splice(parseInt(val), 1);
+          localStorage.setItem('customWords', JSON.stringify(customWords));
+        }
+        alert("Đã xóa từ vựng thành công!");
+        populateDeleteWordList();
+      }
+    }
+
+    /* CLICK EFFECT & AUTOPLAY MUSIC */
+    document.addEventListener("click", e => {
+      // Tự động phát nhạc nếu đang dừng
+      const bgMusic = document.getElementById("bgMusic");
+      if (bgMusic && bgMusic.paused) {
+        bgMusic.volume = 0.15;
+        bgMusic.play().catch(err => console.log("Autoplay bị chặn", err));
+      }
+
+      // Hiệu ứng click
+      const emojis = ["❤️", "💖", "✨", "⭐", "🌟", "💫", "🎉", "🎊"];
+      const el = document.createElement("div");
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;font-size:24px;pointer-events:none;z-index:10000;animation:clickEffect 1s ease-out forwards`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
+    });
+
+    /* ===== CUSTOM TRANSLATOR LOGIC ===== */
+    let transTimeout;
+    function debounceTranslate() {
+      clearTimeout(transTimeout);
+      transTimeout = setTimeout(doTranslate, 600);
+    }
+
+    function swapTransLangs() {
+      const sl = document.getElementById('trans-source-lang');
+      const tl = document.getElementById('trans-target-lang');
+      const temp = sl.value;
+      sl.value = tl.value;
+      tl.value = temp;
+
+      const inp = document.getElementById('trans-input');
+      const out = document.getElementById('trans-output');
+      if (out.innerText && out.innerText !== "Bản dịch sẽ hiện ở đây..." && out.innerText !== "Đang dịch...") {
+        inp.value = out.innerText;
+      }
+      doTranslate();
+    }
+
+    async function doTranslate() {
+      const text = document.getElementById('trans-input').value.trim();
+      const out = document.getElementById('trans-output');
+      if (!text) {
+        out.innerText = "Bản dịch sẽ hiện ở đây...";
+        out.style.color = "#5f6368";
+        return;
+      }
+      const sl = document.getElementById('trans-source-lang').value;
+      const tl = document.getElementById('trans-target-lang').value;
+
+      out.innerText = "Đang dịch...";
+      out.style.color = "#1a73e8";
+
+      try {
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`);
+        const data = await res.json();
+        let translated = "";
+        data[0].forEach(item => {
+          if (item[0]) translated += item[0];
+        });
+        out.innerText = translated;
+        out.style.color = "#202124";
+      } catch (e) {
+        out.innerText = "Lỗi khi dịch. Vui lòng kiểm tra mạng.";
+        out.style.color = "#d93025";
+      }
+    }
+  </script>
+</body>
+
+</html>
